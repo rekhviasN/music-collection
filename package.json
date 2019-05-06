@@ -1,0 +1,17 @@
+{
+  "name": "primary",
+  "version": "1.0.0",
+  "description": "music collection store",
+  "main": "music",
+  "dependencies": {
+    "chai": "^4.2.0"
+  },
+  "devDependencies": {
+    "mocha": "^6.1.4"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "ISC"
+}

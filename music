@@ -1,0 +1,82 @@
+#!/usr/bin/env node
+
+const readline = require('readline');
+const { parseCommand, parseTitle, parseTitleAndArtist, parseArtist } = require('./helpers')
+
+const Library = require('./musicLibrary')
+
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+});
+
+
+const library = new Library()
+
+console.log('Welcome to your music collection!')
+rl.prompt()
+
+rl.on('line', (line) => {
+    let command = parseCommand(line)
+
+    let title, artist;
+
+    switch (command) {
+        case 'add':
+            const titleAndArtist = parseTitleAndArtist(line)
+            if (titleAndArtist === 0) {
+                console.log('Did not save. Please use the following syntax when adding: add "$title" "$artist"')
+                break;
+            }
+            library.addTitleAndArtist(titleAndArtist[0], titleAndArtist[1]);
+            break;
+        case 'play':
+            title = parseTitle(line)
+            if (title === 0) {
+                console.log('Could not play. Please use the following syntax to play: play "$title"')
+                break;
+            }
+            library.play(title)
+            break;
+        case 'show all':
+            const all = library.getAll()
+            console.log(all)
+            break;
+        case 'show all by':
+            artist = parseArtist(line)
+            if (artist === 0) {
+                console.log('Could not parse artist. Please use the following syntax: show all by "$artist"')
+                break;
+            }
+            const allByArtist = library.getAllByArtist(artist)
+            console.log(allByArtist)
+            break;
+        case 'show unplayed by':
+            artist = parseArtist(line)
+            if (artist === 0) {
+                console.log('Could not parse artist. Please use the following syntax: show unplayed by "$artist"')
+                break;
+            }
+            const allUnplayedByArtist = library.getUnplayedByArtist(artist)
+            console.log(allUnplayedByArtist)
+            break;
+        case 'show unplayed':
+            const unplayed = library.getAllUnplayed()
+            console.log(unplayed)
+            break;
+        case 'quit':
+            console.log('Have a great day!');
+            process.exit(0);
+            break;
+        default:
+            console.log(`Hmm I didn't catch that: '${line}'`);
+            break;
+    }
+
+    rl.prompt();
+
+}).on('close', () => {
+
+    process.exit(0);
+
+});
