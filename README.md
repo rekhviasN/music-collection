@@ -27,3 +27,6 @@ show unplayed by "$artist": shows the unplayed albums in the collection by the g
 
 quit: quits the program
 
+### Test
+
+npm test
